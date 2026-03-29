@@ -1,26 +1,77 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #fcfaf6;
+  --foreground: #171312;
+  --muted: #6d625b;
+  --surface: #fffdf9;
+  --surface-strong: #f4ece1;
+  --line: rgba(23, 19, 18, 0.08);
+  --gold: #b98a46;
+  --rose: #b67267;
+  --espresso: #2a211f;
+  --shadow: 0 24px 80px rgba(31, 17, 9, 0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  border-radius: 0 !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(182, 114, 103, 0.14), transparent 30%),
+    radial-gradient(circle at top right, rgba(185, 138, 70, 0.12), transparent 24%),
+    linear-gradient(180deg, #fffdf9 0%, #f7f0e8 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(185, 138, 70, 0.22);
+}
+
+.container-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: none;
+}
+
+.glass-panel {
+  background: rgba(255, 253, 249, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.soft-card {
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, white 84%, #f3e8db);
+  box-shadow: var(--shadow);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
