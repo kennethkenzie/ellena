@@ -1,412 +1,417 @@
-﻿"use client";
+"use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useSiteSettings, logoSrc } from "@/lib/use-site-settings";
 import {
-  ArrowRight,
-  ArrowUpRight,
+  BarChart2,
   Bell,
-  Box,
+  ExternalLink,
+  BookOpen,
+  ChevronDown,
+  ChevronRight,
   CreditCard,
-  Eye,
-  Home,
-  LayoutGrid,
-  Lock,
+  DollarSign,
+  FileText,
+  LayoutDashboard,
   Menu,
   Package,
+  Plus,
+  RefreshCw,
   Search,
   Settings,
-  ShieldCheck,
-  ShoppingBag,
-  Star,
-  Store,
-  Tag,
+  ShoppingCart,
   TrendingUp,
   Truck,
   Users,
+  Zap,
+  type LucideIcon,
 } from "lucide-react";
-import { products } from "@/lib/store-data";
-import { cn, formatCurrency } from "@/lib/utils";
 
-const sidebarSections = [
-  {
-    title: "Overview",
-    items: [
-      { label: "Dashboard", icon: Home, active: true },
-      { label: "Analytics", icon: TrendingUp },
-      { label: "Customers", icon: Users },
-    ],
-  },
-  {
-    title: "Commerce",
-    items: [
-      { label: "Orders", icon: ShoppingBag },
-      { label: "Products", icon: Package },
-      { label: "Inventory", icon: Box },
-      { label: "Discounts", icon: Tag },
-    ],
-  },
-  {
-    title: "System",
-    items: [
-      { label: "Storefront", icon: Store },
-      { label: "Settings", icon: Settings },
-    ],
-  },
+const sidebarItems: { label: string; icon: LucideIcon }[] = [
+  { label: "Dashboard", icon: LayoutDashboard },
+  { label: "Orders", icon: ShoppingCart },
+  { label: "Customers", icon: Users },
+  { label: "Products", icon: Package },
+  { label: "Reviews", icon: BookOpen },
+  { label: "Discounts", icon: Zap },
+  { label: "Marketing", icon: BarChart2 },
+  { label: "Shipping", icon: Truck },
+  { label: "Transactions", icon: CreditCard },
+  { label: "Analytics", icon: TrendingUp },
+  { label: "Reports", icon: FileText },
+  { label: "Store Settings", icon: Settings },
 ];
 
-const overviewCards = [
-  { label: "Net revenue", value: formatCurrency(18450000), change: "+12.5%", note: "vs last month", icon: TrendingUp, accent: "from-amber-100 via-orange-50 to-white" },
-  { label: "Orders today", value: "38", change: "+8.2%", note: "12 awaiting dispatch", icon: ShoppingBag, accent: "from-rose-100 via-stone-50 to-white" },
-  { label: "Active customers", value: "3,642", change: "+18.7%", note: "repeat rate 34.2%", icon: Users, accent: "from-stone-100 via-amber-50 to-white" },
-  { label: "Avg basket", value: formatCurrency(143700), change: "+4.9%", note: "bundle-led growth", icon: CreditCard, accent: "from-orange-50 via-white to-rose-50" },
+const statCards: { title: string; icon: LucideIcon }[] = [
+  { title: "TOTAL SALES", icon: DollarSign },
+  { title: "TOTAL ORDERS", icon: Package },
+  { title: "NEW CUSTOMERS", icon: Users },
+  { title: "RETURN RATE", icon: RefreshCw },
 ];
 
-const orderRows = [
-  { id: "EC-10284", customer: "Achen Mukwaya", channel: "Online", city: "Kampala", total: 462000, status: "Delivered" },
-  { id: "EC-10283", customer: "Tendo Nalubega", channel: "Instagram", city: "Entebbe", total: 189000, status: "Shipped" },
-  { id: "EC-10282", customer: "Naomi Kato", channel: "Online", city: "Nairobi", total: 287000, status: "Processing" },
-  { id: "EC-10281", customer: "Amara Ssemwogerere", channel: "TikTok Shop", city: "Kampala", total: 612000, status: "Delivered" },
-  { id: "EC-10280", customer: "Grace Achieng", channel: "Online", city: "Jinja", total: 245000, status: "Shipped" },
-  { id: "EC-10279", customer: "Faith Nakamya", channel: "WhatsApp", city: "Mbarara", total: 321000, status: "Processing" },
-];
-
-const trafficChannels = [
-  { name: "Direct", value: "34%", detail: "High intent returning buyers" },
-  { name: "Instagram", value: "27%", detail: "Influencer + UGC traffic" },
-  { name: "TikTok", value: "21%", detail: "Strong lip oil and fragrance discovery" },
-  { name: "Search", value: "18%", detail: "Brand and shade-match queries" },
-];
-
-const lowStock = [
-  { name: "Ellena Soft Matte Foundation", detail: "Nile 420", stock: 4 },
-  { name: "Glossed Lip Oil", detail: "Rose Nude", stock: 8 },
-  { name: "Midnight Orchid Parfum", detail: "50 ml", stock: 3 },
-];
-
-const fulfillment = [
-  { label: "Packed", value: 12, icon: Package },
-  { label: "Out for delivery", value: 8, icon: Truck },
-  { label: "Returns pending", value: 3, icon: Box },
-];
-
-const tasks = [
-  { title: "Approve SPF campaign creative", owner: "Marketing", priority: "Today" },
-  { title: "Recount fragrance inventory", owner: "Ops", priority: "High" },
-  { title: "Review Kampala return reasons", owner: "CX", priority: "Today" },
-];
-
-const monthlySales = [42, 48, 62, 51, 58, 67, 72];
-
-function StatusPill({ status }: { status: string }) {
+function SidebarIcon({ icon: Icon, active = false }: { icon: LucideIcon; active?: boolean }) {
   return (
     <span
-      className={cn(
-        "inline-flex border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em]",
-        status === "Delivered" && "border-emerald-200 bg-emerald-50 text-emerald-700",
-        status === "Shipped" && "border-amber-200 bg-amber-50 text-amber-700",
-        status === "Processing" && "border-stone-200 bg-stone-100 text-stone-600",
-      )}
+      className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl border transition ${
+        active
+          ? "border-[#d9dcff] bg-white text-[#4f46e5] shadow-[0_10px_24px_rgba(91,76,240,0.12)]"
+          : "border-slate-200 bg-slate-50 text-slate-500 group-hover:border-slate-300 group-hover:bg-white group-hover:text-slate-700"
+      }`}
     >
-      {status}
+      <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
     </span>
-  );
-}
-
-function MiniSalesChart() {
-  return (
-    <div className="flex h-56 items-end gap-3">
-      {monthlySales.map((value, index) => (
-        <div key={index} className="flex flex-1 flex-col items-center gap-3">
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: `${value}%` }}
-            transition={{ duration: 0.55, delay: index * 0.04 }}
-            className="w-full bg-[linear-gradient(180deg,#ddc4a6_0%,#5b4337_100%)]"
-          />
-          <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-stone-500">{"SONDJFM"[index]}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DashboardSidebar() {
-  return (
-    <aside className="border border-black/6 bg-[#f7efe4] p-5 shadow-[0_20px_60px_rgba(17,12,10,0.06)] xl:sticky xl:top-28 xl:h-[calc(100vh-9rem)] xl:overflow-y-auto">
-      <div className="border-b border-black/8 pb-5">
-        <p className="font-[var(--font-heading)] text-4xl leading-none text-stone-950">ELLENA</p>
-        <p className="text-[10px] font-bold uppercase tracking-[0.42em] text-stone-500">Admin Suite</p>
-      </div>
-      <div className="mt-6 space-y-6">
-        {sidebarSections.map((section) => (
-          <div key={section.title}>
-            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-stone-500">{section.title}</p>
-            <div className="mt-3 space-y-2">
-              {section.items.map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  className={cn(
-                    "flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold",
-                    item.active ? "bg-stone-950 text-white" : "border border-black/8 bg-white text-stone-700",
-                  )}
-                >
-                  <span className="flex items-center gap-3">
-                    <item.icon className="h-4 w-4" />
-                    {item.label}
-                  </span>
-                  {item.active ? <ArrowRight className="h-4 w-4" /> : null}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-6 border border-black/8 bg-white p-4">
-        <p className="text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Today</p>
-        <p className="mt-3 font-[var(--font-heading)] text-4xl leading-none text-stone-950">38 orders</p>
-        <p className="mt-2 text-sm leading-6 text-stone-600">12 awaiting dispatch, 3 low-stock alerts, and 1 campaign pending approval.</p>
-      </div>
-    </aside>
   );
 }
 
 export function DashboardNavbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-black/6 bg-[#f7f1e8]/90 backdrop-blur-xl">
-      <div className="w-full px-4 py-4 md:px-6 xl:px-10">
-        <div className="flex flex-wrap items-center gap-4">
-          <Link href="/dashboard" className="mr-2 shrink-0">
-            <p className="font-[var(--font-heading)] text-3xl leading-none tracking-[0.08em] text-stone-950">ELLENA</p>
-            <p className="text-[10px] font-bold uppercase tracking-[0.42em] text-stone-500">Admin Suite</p>
-          </Link>
-          <div className="ml-auto flex items-center gap-2 md:gap-3">
-            <div className="hidden min-w-[16rem] items-center border border-black/8 bg-white px-4 py-3 md:flex">
-              <Search className="mr-3 h-4 w-4 text-stone-400" />
-              <input className="w-full bg-transparent text-sm outline-none" placeholder="Search order, SKU, customer..." />
+    <header className="sticky top-0 z-20 flex h-[60px] items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6">
+      <div className="flex items-center gap-4">
+        <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 xl:hidden">
+          <Menu className="h-5 w-5" strokeWidth={1.8} />
+        </button>
+
+        <div className="hidden items-center gap-4 md:flex">
+          <div className="flex items-center gap-3 rounded-2xl border border-slate-200 px-4 py-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#eef0ff] text-[#5b4cf0]">
+              <ShoppingCart className="h-[18px] w-[18px]" strokeWidth={1.8} />
             </div>
-            <button type="button" className="inline-flex h-11 w-11 items-center justify-center border border-black/10 bg-white text-stone-700"><Bell className="h-4 w-4" /></button>
-            <Link href="/dashboard/login" className="hidden bg-stone-950 px-5 py-3 text-sm font-bold uppercase tracking-[0.18em] text-white md:inline-flex">Admin login</Link>
-            <button type="button" className="inline-flex h-11 w-11 items-center justify-center border border-black/10 bg-white xl:hidden"><Menu className="h-4 w-4" /></button>
+            <div>
+              <p className="text-sm font-semibold">Ellena Cosmetics</p>
+              <p className="text-xs text-slate-500">Admin Dashboard</p>
+            </div>
           </div>
+          <h1 className="font-[var(--font-heading)] text-[24px] font-bold tracking-tight">Dashboard</h1>
         </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="hidden h-10 w-[310px] items-center gap-3 rounded-xl border border-slate-200 bg-[#fbfbfd] px-4 lg:flex">
+          <Search className="h-4 w-4 text-slate-400" strokeWidth={1.8} />
+          <input
+            type="text"
+            placeholder="Search orders, products, customers..."
+            className="w-full border-0 bg-transparent text-sm outline-none placeholder:text-slate-400"
+          />
+        </div>
+        <Link
+          href="/"
+          className="hidden items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 md:inline-flex"
+        >
+          <ExternalLink className="h-4 w-4" strokeWidth={1.8} />
+          Back to Website
+        </Link>
+        <button className="hidden h-10 w-10 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 md:inline-flex">
+          <Bell className="h-5 w-5" strokeWidth={1.8} />
+        </button>
+        <button className="inline-flex items-center gap-2 rounded-xl bg-[#5b4cf0] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4f46e5]">
+          <Plus className="h-4 w-4" strokeWidth={2} />
+          Add Product
+        </button>
       </div>
     </header>
   );
 }
 
-export function DashboardPage() {
-  const topProducts = [...products].sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 5);
-
-  return (
-    <main className="w-full px-4 py-6 md:px-6 md:py-8 xl:px-10 xl:py-10">
-      <div className="grid gap-5 xl:grid-cols-[18rem_minmax(0,1fr)] 2xl:grid-cols-[19rem_minmax(0,1fr)]">
-        <DashboardSidebar />
-
-        <div className="min-w-0 space-y-5">
-          <section className="grid gap-5 2xl:grid-cols-[1.4fr_0.6fr]">
-            <div className="overflow-hidden border border-black/6 bg-[linear-gradient(135deg,#1f1715_0%,#73523f_44%,#d0a27b_100%)] text-white shadow-[0_30px_90px_rgba(31,17,9,0.14)]">
-              <div className="grid gap-8 px-6 py-8 md:px-8 md:py-10 xl:grid-cols-[1.25fr_0.75fr] xl:items-end">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.34em] text-white/60">eCommerce command center</p>
-                  <h1 className="mt-4 max-w-4xl font-[var(--font-heading)] text-[3rem] leading-[0.9] text-balance md:text-[4.75rem]">Full-width operations built for products, orders, campaigns, and customer retention.</h1>
-                  <p className="mt-5 max-w-2xl text-sm leading-7 text-white/78">This dashboard is structured more like a real commerce back office: top-line KPIs, active fulfillment, merch alerts, traffic attribution, and quick actions without the storefront width constraints.</p>
-                  <div className="mt-7 flex flex-wrap gap-3">
-                    <Link href="/shop" className="bg-white px-5 py-3 text-sm font-bold uppercase tracking-[0.18em] text-stone-950">Open storefront</Link>
-                    <Link href="/dashboard/login" className="border border-white/20 px-5 py-3 text-sm font-bold uppercase tracking-[0.18em] text-white">Login settings</Link>
-                  </div>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-                  {fulfillment.map((item) => (
-                    <div key={item.label} className="border border-white/12 bg-white/8 p-4 backdrop-blur">
-                      <item.icon className="h-5 w-5 text-amber-300" />
-                      <p className="mt-4 font-[var(--font-heading)] text-4xl leading-none">{item.value}</p>
-                      <p className="mt-2 text-xs font-bold uppercase tracking-[0.24em] text-white/60">{item.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <aside className="grid gap-5">
-              <div className="border border-black/6 bg-white/90 p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)]">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.32em] text-stone-500">Store health</p>
-                    <h2 className="mt-2 font-[var(--font-heading)] text-4xl leading-none text-stone-950">Today</h2>
-                  </div>
-                  <ShieldCheck className="h-7 w-7 text-emerald-600" />
-                </div>
-                <div className="mt-5 space-y-4 text-sm text-stone-700">
-                  <div className="flex items-center justify-between border-b border-black/6 pb-3"><span>Live conversion</span><span className="font-bold text-stone-950">3.24%</span></div>
-                  <div className="flex items-center justify-between border-b border-black/6 pb-3"><span>Mobile share</span><span className="font-bold text-stone-950">71%</span></div>
-                  <div className="flex items-center justify-between"><span>Cart recovery</span><span className="font-bold text-stone-950">18.6%</span></div>
-                </div>
-              </div>
-              <div className="border border-black/6 bg-stone-950 p-6 text-white shadow-[0_18px_50px_rgba(17,12,10,0.12)]">
-                <p className="text-xs font-bold uppercase tracking-[0.32em] text-white/55">Quick actions</p>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2 2xl:grid-cols-1">
-                  {["Create discount code", "Restock top seller", "Review failed payments", "Launch homepage banner"].map((item) => (
-                    <button key={item} type="button" className="flex items-center justify-between border border-white/10 bg-white/6 px-4 py-3 text-left text-sm font-semibold text-white">
-                      <span>{item}</span>
-                      <ArrowRight className="h-4 w-4 text-amber-300" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </aside>
-          </section>
-
-          <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
-            {overviewCards.map((card, index) => (
-              <motion.article key={card.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: index * 0.05 }} className={cn("border border-black/6 bg-gradient-to-br p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)]", card.accent)}>
-                <div className="flex items-start justify-between">
-                  <div className="inline-flex h-12 w-12 items-center justify-center border border-black/8 bg-white/80"><card.icon className="h-5 w-5 text-stone-700" /></div>
-                  <div className="flex items-center gap-1 text-sm font-bold text-emerald-600"><ArrowUpRight className="h-4 w-4" />{card.change}</div>
-                </div>
-                <p className="mt-5 font-[var(--font-heading)] text-4xl leading-none text-stone-950">{card.value}</p>
-                <p className="mt-2 text-xs font-bold uppercase tracking-[0.24em] text-stone-500">{card.label}</p>
-                <p className="mt-3 text-sm text-stone-600">{card.note}</p>
-              </motion.article>
-            ))}
-          </section>
-
-          <section className="grid gap-5 2xl:grid-cols-[1.15fr_0.85fr]">
-            <div className="grid gap-5">
-              <div className="border border-black/6 bg-white/92 p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)] md:p-8">
-                <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.32em] text-stone-500">Sales</p>
-                    <h3 className="mt-2 font-[var(--font-heading)] text-4xl leading-none text-stone-950">Revenue trend</h3>
-                  </div>
-                  <div className="flex gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-stone-500">
-                    <span className="border border-stone-950 bg-stone-950 px-3 py-2 text-white">7M</span>
-                    <span className="border border-black/10 bg-white px-3 py-2">YTD</span>
-                    <span className="border border-black/10 bg-white px-3 py-2">Market</span>
-                  </div>
-                </div>
-                <MiniSalesChart />
-                <div className="mt-6 grid gap-4 border-t border-black/6 pt-6 md:grid-cols-3">
-                  <div><p className="text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Repeat customers</p><p className="mt-2 font-[var(--font-heading)] text-3xl leading-none text-stone-950">34.2%</p></div>
-                  <div><p className="text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Refund rate</p><p className="mt-2 font-[var(--font-heading)] text-3xl leading-none text-stone-950">1.8%</p></div>
-                  <div><p className="text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Dispatch time</p><p className="mt-2 font-[var(--font-heading)] text-3xl leading-none text-stone-950">6.4h</p></div>
-                </div>
-              </div>
-
-              <div className="border border-black/6 bg-white/92 p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)] md:p-8">
-                <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.32em] text-stone-500">Order stream</p>
-                    <h3 className="mt-2 font-[var(--font-heading)] text-4xl leading-none text-stone-950">Recent orders</h3>
-                  </div>
-                  <button type="button" className="w-fit border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-stone-700">View all orders</button>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-left text-sm">
-                    <thead>
-                      <tr className="border-b border-black/8 text-[11px] font-bold uppercase tracking-[0.24em] text-stone-500">
-                        <th className="pb-3 pr-6">Order</th>
-                        <th className="pb-3 pr-6">Customer</th>
-                        <th className="pb-3 pr-6">Channel</th>
-                        <th className="pb-3 pr-6">City</th>
-                        <th className="pb-3 pr-6">Total</th>
-                        <th className="pb-3">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orderRows.map((order) => (
-                        <tr key={order.id} className="border-b border-black/4 text-stone-700 transition hover:bg-stone-50/70">
-                          <td className="py-4 pr-6 font-semibold text-stone-950">{order.id}</td>
-                          <td className="py-4 pr-6">{order.customer}</td>
-                          <td className="py-4 pr-6 text-stone-500">{order.channel}</td>
-                          <td className="py-4 pr-6 text-stone-500">{order.city}</td>
-                          <td className="py-4 pr-6 font-semibold text-stone-950">{formatCurrency(order.total)}</td>
-                          <td className="py-4"><StatusPill status={order.status} /></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-5 lg:grid-cols-2 2xl:grid-cols-1">
-              <div className="border border-black/6 bg-white/92 p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)]">
-                <div className="flex items-center gap-2"><Package className="h-4 w-4 text-rose-600" /><p className="text-xs font-bold uppercase tracking-[0.32em] text-stone-500">Inventory alerts</p></div>
-                <div className="mt-5 space-y-3">{lowStock.map((item) => <div key={`${item.name}-${item.detail}`} className="border border-black/6 bg-stone-50 p-4"><div className="flex items-start justify-between gap-4"><div><p className="text-sm font-semibold text-stone-900">{item.name}</p><p className="text-xs text-stone-500">{item.detail}</p></div><div className="text-right"><p className="text-sm font-bold text-rose-600">{item.stock} left</p><p className="text-[10px] font-bold uppercase tracking-[0.24em] text-stone-400">Restock soon</p></div></div></div>)}</div>
-              </div>
-              <div className="border border-black/6 bg-white/92 p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)]">
-                <div className="flex items-center gap-2"><Star className="h-4 w-4 text-amber-500" /><p className="text-xs font-bold uppercase tracking-[0.32em] text-stone-500">Top products</p></div>
-                <div className="mt-5 space-y-4">{topProducts.map((product, index) => <div key={product.slug} className="flex items-center gap-4"><span className="inline-flex h-8 w-8 items-center justify-center bg-stone-100 text-xs font-bold text-stone-600">{index + 1}</span><div className={cn("h-11 w-11 bg-gradient-to-br", product.accent)} /><div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold text-stone-900">{product.name}</p><p className="text-xs text-stone-500">{product.reviewCount} reviews</p></div><p className="text-sm font-bold text-stone-900">{formatCurrency(product.price)}</p></div>)}</div>
-              </div>
-              <div className="border border-black/6 bg-white/92 p-6 shadow-[0_18px_50px_rgba(17,12,10,0.06)]">
-                <div className="flex items-center gap-2"><Eye className="h-4 w-4 text-stone-700" /><p className="text-xs font-bold uppercase tracking-[0.32em] text-stone-500">Traffic mix</p></div>
-                <div className="mt-5 space-y-4">{trafficChannels.map((channel) => <div key={channel.name} className="border border-black/6 bg-stone-50 p-4"><div className="flex items-center justify-between gap-4"><p className="text-sm font-semibold text-stone-900">{channel.name}</p><p className="text-sm font-bold text-stone-950">{channel.value}</p></div><p className="mt-2 text-xs leading-6 text-stone-500">{channel.detail}</p></div>)}</div>
-              </div>
-              <div className="border border-black/6 bg-stone-950 p-6 text-white shadow-[0_18px_50px_rgba(17,12,10,0.12)]">
-                <div className="flex items-center gap-2"><Bell className="h-4 w-4 text-amber-300" /><p className="text-xs font-bold uppercase tracking-[0.32em] text-white/55">Team queue</p></div>
-                <div className="mt-5 space-y-4">{tasks.map((task) => <div key={task.title} className="border border-white/10 bg-white/6 p-4"><p className="text-sm font-semibold text-white">{task.title}</p><div className="mt-2 flex items-center justify-between text-[11px] font-bold uppercase tracking-[0.24em] text-white/55"><span>{task.owner}</span><span>{task.priority}</span></div></div>)}</div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  );
-}
-
 export function DashboardFooter() {
   return (
-    <footer className="border-t border-black/6 bg-[#f1e6d8]">
-      <div className="w-full px-4 py-8 md:px-6 xl:px-10">
-        <div className="grid gap-6 md:grid-cols-3">
-          <div>
-            <p className="font-[var(--font-heading)] text-4xl leading-none text-stone-950">ELLENA</p>
-            <p className="text-[10px] font-bold uppercase tracking-[0.42em] text-stone-500">Admin Suite</p>
-            <p className="mt-3 max-w-md text-sm leading-7 text-stone-600">Operations dashboard for Ellena Cosmetics storefront performance, merchandising, stock control, and customer support.</p>
-          </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-stone-500">Admin links</p>
-            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-stone-700"><Link href="/dashboard">Dashboard</Link><Link href="/dashboard/login">Login</Link><Link href="/shop">Storefront</Link></div>
-          </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-stone-500">Support</p>
-            <p className="mt-4 text-sm leading-7 text-stone-600">ops@ellenacosmetics.com<br />Mon - Sat, 8AM to 8PM EAT</p>
-          </div>
+    <footer className="border-t border-slate-200 bg-white px-6 py-4">
+      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <p className="text-sm text-slate-500">(c) {new Date().getFullYear()} Ellena Cosmetics. All rights reserved.</p>
+        <div className="flex items-center gap-6">
+          <a href="#" className="text-sm text-slate-500 transition hover:text-slate-900">
+            Privacy Policy
+          </a>
+          <a href="#" className="text-sm text-slate-500 transition hover:text-slate-900">
+            Terms of Service
+          </a>
         </div>
       </div>
     </footer>
   );
 }
 
-export function DashboardLoginPage() {
+const productSubItems: { label: string; href: string }[] = [
+  { label: "Add New Product", href: "/dashboard/products/add" },
+  { label: "All Products", href: "/dashboard/products" },
+  { label: "Bulk Import", href: "/dashboard/products/bulk-import" },
+  { label: "Bulk Export", href: "/dashboard/products/bulk-export" },
+  { label: "Category", href: "/dashboard/products/category" },
+  { label: "Category Based Discount", href: "/dashboard/products/category-discount" },
+  { label: "Attribute", href: "/dashboard/products/attribute" },
+  { label: "Colors", href: "/dashboard/products/colors" },
+  { label: "Units", href: "/dashboard/products/units" },
+  { label: "Size Guide", href: "/dashboard/products/size-guide" },
+];
+
+function DashboardSidebar() {
+  const pathname = usePathname();
+  const isProductsPath = pathname.startsWith("/dashboard/products");
+  const [productsOpen, setProductsOpen] = useState(isProductsPath);
+  const siteSettings = useSiteSettings();
+  const sidebarLogo = logoSrc(siteSettings?.logo_url);
+
   return (
-    <main className="w-full px-4 py-6 md:px-6 md:py-8 xl:px-10 xl:py-10">
-      <div className="grid min-h-[78vh] overflow-hidden border border-black/6 bg-white shadow-[0_24px_70px_rgba(17,12,10,0.08)] lg:grid-cols-[0.95fr_1.05fr]">
-        <section className="bg-[linear-gradient(135deg,#211816_0%,#6f4f3c_44%,#cfa27b_100%)] p-8 text-white md:p-12">
-          <p className="text-xs font-bold uppercase tracking-[0.34em] text-white/60">Admin access</p>
-          <h1 className="mt-5 max-w-xl font-[var(--font-heading)] text-6xl leading-none text-balance">Secure sign-in for the Ellena Cosmetics operations team.</h1>
-          <p className="mt-5 max-w-lg text-sm leading-7 text-white/80">Use this portal to manage merchandising, inventory alerts, customer care tasks, and order fulfillment. The layout matches the premium brand language while keeping admin access focused and legible.</p>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">{[{ icon: ShieldCheck, label: "2-step ready", text: "Prepared for role-based access and OTP verification." }, { icon: Store, label: "Store controls", text: "Orders, products, and campaign approvals in one place." }, { icon: Box, label: "Inventory focus", text: "Critical stock and restock tasks stay visible." }, { icon: Eye, label: "Performance view", text: "Fast access to sales and customer trends." }].map((item) => <div key={item.label} className="border border-white/10 bg-white/8 p-4 backdrop-blur"><item.icon className="h-5 w-5 text-amber-300" /><p className="mt-4 text-sm font-bold uppercase tracking-[0.24em] text-white/70">{item.label}</p><p className="mt-2 text-sm leading-6 text-white/75">{item.text}</p></div>)}</div>
-        </section>
-        <section className="bg-[linear-gradient(180deg,#fffdf9_0%,#f5ece1_100%)] p-8 md:p-12">
-          <div className="mx-auto max-w-xl">
-            <p className="text-xs font-bold uppercase tracking-[0.34em] text-stone-500">Dashboard login</p>
-            <h2 className="mt-4 font-[var(--font-heading)] text-5xl leading-none text-stone-950">Welcome back.</h2>
-            <p className="mt-4 text-sm leading-7 text-stone-600">Sign in to open the admin workspace. This is a frontend login surface only for now, ready to connect to real auth later.</p>
-            <form className="mt-8 space-y-4">
-              <div><label className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Work email</label><input className="h-14 w-full border border-black/8 bg-white px-4 outline-none" placeholder="admin@ellenacosmetics.com" /></div>
-              <div><label className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Password</label><div className="flex h-14 items-center border border-black/8 bg-white px-4"><Lock className="mr-3 h-4 w-4 text-stone-400" /><input type="password" className="h-full w-full bg-transparent outline-none" placeholder="Enter password" /></div></div>
-              <div><label className="mb-2 block text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Store code</label><input className="h-14 w-full border border-black/8 bg-white px-4 outline-none" placeholder="EC-KLA-01" /></div>
-              <div className="flex flex-col gap-3 text-sm text-stone-600 md:flex-row md:items-center md:justify-between"><label className="flex items-center gap-2"><input type="checkbox" className="h-4 w-4" />Keep me signed in</label><button type="button" className="w-fit font-semibold text-stone-900">Forgot password?</button></div>
-              <button type="submit" className="flex h-14 w-full items-center justify-center gap-2 bg-stone-950 text-sm font-bold uppercase tracking-[0.18em] text-white">Sign in to dashboard <ArrowRight className="h-4 w-4" /></button>
-            </form>
-            <div className="mt-8 grid gap-4 border-t border-black/8 pt-6 md:grid-cols-2"><div className="border border-black/8 bg-white/75 p-4"><p className="text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Demo credentials</p><p className="mt-3 text-sm text-stone-700">admin@ellenacosmetics.com</p><p className="text-sm text-stone-700">Password: ellena-admin</p></div><div className="border border-black/8 bg-white/75 p-4"><p className="text-xs font-bold uppercase tracking-[0.24em] text-stone-500">Next step</p><p className="mt-3 text-sm leading-6 text-stone-700">Connect this form to NextAuth, Clerk, or your own auth API when you are ready.</p></div></div>
-            <div className="mt-6 flex flex-wrap gap-3"><Link href="/dashboard" className="text-sm font-semibold text-stone-900">Back to dashboard</Link><Link href="/" className="text-sm font-semibold text-stone-500">Back to storefront</Link></div>
-          </div>
-        </section>
+    <aside className="hidden w-[274px] border-r border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f7f8ff_100%)] xl:flex xl:flex-col">
+      <div className="flex h-[72px] items-center gap-3 border-b border-slate-200 px-6">
+        {sidebarLogo ? (
+          <Image src={sidebarLogo} alt="Logo" width={120} height={36} className="h-9 w-auto object-contain" />
+        ) : (
+          <>
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#5b4cf0] text-sm font-semibold text-white shadow-[0_12px_30px_rgba(91,76,240,0.22)]">
+              E
+            </div>
+            <div>
+              <span className="font-[var(--font-heading)] text-[24px] font-bold tracking-tight">Ellena</span>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-400">Cosmetics Admin</p>
+            </div>
+          </>
+        )}
       </div>
+
+      <div className="flex-1 overflow-y-auto px-4 py-6">
+        <div className="mb-4 px-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Workspace</p>
+        </div>
+        <nav className="space-y-2">
+          {sidebarItems.map((item) => {
+            const isProducts = item.label === "Products";
+            const isDashboard = item.label === "Dashboard";
+            const isActive = isDashboard ? pathname === "/dashboard" : isProducts ? isProductsPath : false;
+            return (
+              <div key={item.label}>
+                <button
+                  type="button"
+                  onClick={() => { if (isProducts) setProductsOpen((o) => !o); }}
+                  className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-[15px] font-medium transition ${
+                    isActive
+                      ? "bg-[#eef0ff] text-[#4f46e5] shadow-[0_16px_40px_rgba(79,70,229,0.08)]"
+                      : isProducts && productsOpen
+                        ? "bg-white text-slate-900 shadow-[0_12px_32px_rgba(15,23,42,0.06)]"
+                        : "text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-[0_12px_32px_rgba(15,23,42,0.06)]"
+                  }`}
+                >
+                  <SidebarIcon icon={item.icon} active={isActive} />
+                  <span className="flex-1">{item.label}</span>
+                  {isProducts ? (
+                    <ChevronDown
+                      className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${productsOpen ? "rotate-180" : ""}`}
+                      strokeWidth={1.8}
+                    />
+                  ) : isActive ? (
+                    <ChevronRight className="h-4 w-4" strokeWidth={1.8} />
+                  ) : null}
+                </button>
+                {isProducts && productsOpen && (
+                  <div className="ml-[52px] mt-1 space-y-0.5 border-l-2 border-slate-100 pl-3">
+                    {productSubItems.map((sub) => {
+                      const active = pathname === sub.href;
+                      return (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className={`flex w-full items-center rounded-xl px-3 py-2 text-[13px] font-medium transition ${
+                            active
+                              ? "bg-[#eef0ff] text-[#4f46e5]"
+                              : "text-slate-500 hover:bg-white hover:text-slate-900"
+                          }`}
+                        >
+                          {sub.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </nav>
+      </div>
+
+      <div className="border-t border-slate-200 px-4 py-4">
+        <div className="flex items-center gap-3 rounded-3xl border border-slate-200 bg-white p-3 shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+            A
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-slate-900">Admin Store</p>
+            <p className="truncate text-xs text-slate-500">Super Admin</p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-slate-400" strokeWidth={1.8} />
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+export function DashboardShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-[#f6f7fb] font-[var(--font-body)] text-slate-900">
+      <div className="flex min-h-screen">
+        <DashboardSidebar />
+        <div className="flex-1 overflow-x-hidden">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+export function DashboardPage() {
+  return (
+    <main className="p-4 md:p-6">
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h2 className="font-[var(--font-heading)] text-[20px] font-bold tracking-tight md:text-[26px]">Welcome back, Store Admin</h2>
+          <p className="mt-1 text-sm text-slate-500 md:text-base">
+            Here&apos;s what&apos;s happening in your ecommerce business today.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 self-start">
+          <button className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+            Filter
+          </button>
+          <button className="rounded-xl bg-[#5b4cf0] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4f46e5]">
+            Export Sales
+          </button>
+        </div>
+      </div>
+
+      <section className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-4">
+        {statCards.map((stat) => (
+          <div key={stat.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+            <div className="mb-5 flex items-start justify-between">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-400">
+                <stat.icon className="h-5 w-5" strokeWidth={1.8} />
+              </div>
+            </div>
+            <p className="mb-2 text-xs font-semibold tracking-[0.16em] text-slate-400">{stat.title}</p>
+            <p className="text-[28px] font-bold tracking-tight text-slate-300">—</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-[1.55fr_0.5fr]">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 className="font-[var(--font-heading)] text-[16px] font-bold tracking-tight">Sales vs Orders</h3>
+              <p className="text-sm text-slate-500">Monthly ecommerce performance for the last 6 months</p>
+            </div>
+            <button className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700">
+              Last 6 Months
+            </button>
+          </div>
+          <div className="flex h-[280px] items-center justify-center rounded-2xl bg-slate-50">
+            <p className="text-sm text-slate-400">No sales data available yet</p>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <h3 className="font-[var(--font-heading)] text-[16px] font-bold tracking-tight">Sales Channels</h3>
+          <div className="mt-8 flex h-[200px] items-center justify-center">
+            <p className="text-sm text-slate-400">No channel data available yet</p>
+          </div>
+          <div className="border-t border-slate-100 pt-6">
+            <button className="flex w-full items-center justify-between text-sm font-semibold text-[#5b4cf0]">
+              <span>View channel analytics</span>
+              <ChevronRight className="h-4 w-4" strokeWidth={1.8} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <h3 className="font-[var(--font-heading)] text-[16px] font-bold tracking-tight">Top Products</h3>
+              <p className="text-sm text-slate-500">Best performing products this month</p>
+            </div>
+            <button className="text-sm font-semibold text-[#5b4cf0]">View All</button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left">
+              <thead>
+                <tr className="border-b border-slate-100 text-xs uppercase tracking-[0.16em] text-slate-400">
+                  <th className="pb-4 font-semibold">Product</th>
+                  <th className="pb-4 font-semibold">SKU</th>
+                  <th className="pb-4 font-semibold">Sales</th>
+                  <th className="pb-4 font-semibold">Stock</th>
+                  <th className="pb-4 font-semibold">Revenue</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan={5} className="py-12 text-center text-sm text-slate-400">
+                    No products to display yet
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <h3 className="font-[var(--font-heading)] text-[16px] font-bold tracking-tight">Recent Orders</h3>
+              <p className="text-sm text-slate-500">Latest purchases from your customers</p>
+            </div>
+            <button className="text-sm font-semibold text-[#5b4cf0]">Manage Orders</button>
+          </div>
+          <div className="flex h-[200px] items-center justify-center rounded-2xl bg-slate-50">
+            <p className="text-sm text-slate-400">No orders yet</p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
+
+export function DashboardLoginPage() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,#eef0ff_0%,#f8f9fc_42%,#ffffff_100%)] px-4">
+      <div className="w-full max-w-md rounded-[32px] border border-slate-200 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+        <div className="mb-8 flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#5b4cf0] text-base font-semibold text-white">
+            E
+          </div>
+          <div>
+            <p className="font-[var(--font-heading)] text-lg font-bold tracking-tight text-slate-900">Ellena Cosmetics Admin</p>
+            <p className="text-sm text-slate-500">Sign in to manage your store dashboard</p>
+          </div>
+        </div>
+
+        <form className="space-y-4">
+          <label className="block">
+            <span className="mb-2 block text-sm font-medium text-slate-700">Email address</span>
+            <input
+              type="email"
+              placeholder="admin@shopflow.com"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#cfd4ff] focus:ring-2 focus:ring-[#e7e9ff]"
+            />
+          </label>
+
+          <label className="block">
+            <span className="mb-2 block text-sm font-medium text-slate-700">Password</span>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#cfd4ff] focus:ring-2 focus:ring-[#e7e9ff]"
+            />
+          </label>
+
+          <button className="inline-flex w-full items-center justify-center rounded-2xl bg-[#5b4cf0] px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4f46e5]">
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+
+

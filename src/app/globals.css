@@ -2,10 +2,10 @@
 
 :root {
   color-scheme: light;
-  --background: #fcfaf6;
+  --background: #ffffff;
   --foreground: #171312;
   --muted: #6d625b;
-  --surface: #fffdf9;
+  --surface: #ffffff;
   --surface-strong: #f4ece1;
   --line: rgba(23, 19, 18, 0.08);
   --gold: #b98a46;
@@ -16,7 +16,6 @@
 
 * {
   box-sizing: border-box;
-  border-radius: 0 !important;
 }
 
 html {
@@ -26,10 +25,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(182, 114, 103, 0.14), transparent 30%),
-    radial-gradient(circle at top right, rgba(185, 138, 70, 0.12), transparent 24%),
-    linear-gradient(180deg, #fffdf9 0%, #f7f0e8 100%);
+  background: #ffffff;
   color: var(--foreground);
   font-family: var(--font-body), sans-serif;
 }
@@ -75,3 +71,17 @@ img {
   text-wrap: balance;
 }
 
+:root {
+  --font-heading: var(--font-jost);
+  --font-body: var(--font-jost);
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}

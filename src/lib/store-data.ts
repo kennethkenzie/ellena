@@ -1,4 +1,4 @@
-﻿export type Product = {
+export type Product = {
   slug: string;
   name: string;
   category: "Makeup" | "Skincare" | "Hair" | "Body" | "Fragrance";
@@ -11,6 +11,7 @@
   badge?: string;
   accent: string;
   heroTone: string;
+  image: string;
 };
 
 export type NavGroup = {
@@ -98,186 +99,50 @@ export const navGroups: NavGroup[] = [
 ];
 
 export const categoryHighlights = [
-  { name: "Makeup", caption: "Airbrushed complexion", count: "42 formulas", tone: "from-stone-900 via-stone-700 to-amber-600" },
-  { name: "Skincare", caption: "Glow without compromise", count: "18 rituals", tone: "from-emerald-900 via-stone-700 to-yellow-600" },
-  { name: "Hair", caption: "Scalp to silk press", count: "26 essentials", tone: "from-amber-900 via-stone-700 to-orange-500" },
-  { name: "Body", caption: "Soft sheen layering", count: "14 indulgences", tone: "from-rose-900 via-stone-700 to-amber-500" },
+  {
+    name: "Makeup",
+    caption: "Airbrushed complexion",
+    count: "42 formulas",
+    tone: "from-stone-900 via-stone-700 to-amber-600",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    name: "Skincare",
+    caption: "Glow without compromise",
+    count: "18 rituals",
+    tone: "from-emerald-900 via-stone-700 to-yellow-600",
+    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    name: "Hair",
+    caption: "Scalp to silk press",
+    count: "26 essentials",
+    tone: "from-amber-900 via-stone-700 to-orange-500",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    name: "Body",
+    caption: "Soft sheen layering",
+    count: "14 indulgences",
+    tone: "from-rose-900 via-stone-700 to-amber-500",
+    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=80",
+  },
 ];
 
-export const products: Product[] = [
-  {
-    slug: "ellena-soft-matte-foundation",
-    name: "Ellena Soft Matte Foundation",
-    category: "Makeup",
-    subcategory: "Foundation",
-    price: 189000,
-    rating: 4.9,
-    reviewCount: 312,
-    shades: ["Nile 420", "Kampala 360", "Savanna 300", "Ebony 510"],
-    description: "A humidity-ready matte foundation with breathable coverage and a blurred skin finish.",
-    badge: "Best seller",
-    accent: "from-amber-200 via-orange-200 to-stone-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.5),_transparent_50%),linear-gradient(135deg,#ad6e48,#d9b38c)]",
-  },
-  {
-    slug: "silk-veil-concealer",
-    name: "Silk Veil Concealer",
-    category: "Makeup",
-    subcategory: "Concealer",
-    price: 129000,
-    rating: 4.8,
-    reviewCount: 204,
-    shades: ["Honey 03", "Clove 06", "Espresso 10"],
-    description: "Medium-to-full coverage concealer that brightens under-eyes and spot corrects without creasing.",
-    accent: "from-rose-200 via-orange-100 to-amber-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.45),_transparent_50%),linear-gradient(135deg,#c48366,#edd6c1)]",
-  },
-  {
-    slug: "gold-lustre-highlighter-duo",
-    name: "Gold Lustre Highlighter Duo",
-    category: "Makeup",
-    subcategory: "Blush & Highlighter",
-    price: 149000,
-    rating: 4.7,
-    reviewCount: 188,
-    shades: ["Champagne Heat", "Copper Aura"],
-    description: "Two baked powders that melt into the skin for candlelit glow with no glitter fall-out.",
-    badge: "Trending",
-    accent: "from-yellow-100 via-amber-100 to-orange-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.55),_transparent_50%),linear-gradient(135deg,#b98a46,#f1d6a7)]",
-  },
-  {
-    slug: "dew-ritual-vitamin-c-serum",
-    name: "Dew Ritual Vitamin C Serum",
-    category: "Skincare",
-    subcategory: "Serums",
-    price: 169000,
-    rating: 4.9,
-    reviewCount: 274,
-    shades: ["30 ml"],
-    description: "Brightening vitamin C complex with niacinamide for tone-evening radiance.",
-    badge: "New",
-    accent: "from-orange-100 via-amber-50 to-lime-50",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.5),_transparent_50%),linear-gradient(135deg,#d4a15a,#f6e5bf)]",
-  },
-  {
-    slug: "baobab-barrier-cream",
-    name: "Baobab Barrier Cream",
-    category: "Skincare",
-    subcategory: "Moisturizers",
-    price: 154000,
-    rating: 4.8,
-    reviewCount: 161,
-    shades: ["50 ml"],
-    description: "Velvet-rich moisturizer powered by baobab, ceramides, and panthenol for comfort that lasts.",
-    accent: "from-stone-100 via-orange-50 to-amber-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.5),_transparent_50%),linear-gradient(135deg,#c59c79,#f2dfc8)]",
-  },
-  {
-    slug: "sun-veil-spf-50",
-    name: "Sun Veil SPF 50",
-    category: "Skincare",
-    subcategory: "Sunscreen (SPF)",
-    price: 142000,
-    rating: 4.7,
-    reviewCount: 133,
-    shades: ["50 ml"],
-    description: "Invisible broad-spectrum SPF with a non-ashy finish designed for deeper skin tones.",
-    accent: "from-yellow-100 via-white to-stone-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.55),_transparent_50%),linear-gradient(135deg,#e2b873,#fff0c2)]",
-  },
-  {
-    slug: "crown-repair-hair-oil",
-    name: "Crown Repair Hair Oil",
-    category: "Hair",
-    subcategory: "Hair Oils",
-    price: 118000,
-    rating: 4.8,
-    reviewCount: 226,
-    shades: ["50 ml"],
-    description: "Lightweight scalp and length treatment with castor, moringa, and marula oils.",
-    accent: "from-amber-200 via-yellow-100 to-stone-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.4),_transparent_50%),linear-gradient(135deg,#8e5c2e,#cfa063)]",
-  },
-  {
-    slug: "silk-wrap-leave-in",
-    name: "Silk Wrap Leave-In",
-    category: "Hair",
-    subcategory: "Styling Products",
-    price: 96000,
-    rating: 4.6,
-    reviewCount: 97,
-    shades: ["150 ml"],
-    description: "Hydrating leave-in that softens curls, braids, and heat-styled hair while guarding against breakage.",
-    accent: "from-orange-100 via-stone-100 to-yellow-50",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.45),_transparent_50%),linear-gradient(135deg,#9a6842,#ddb58f)]",
-  },
-  {
-    slug: "velvet-body-creme",
-    name: "Velvet Body Creme",
-    category: "Body",
-    subcategory: "Body Lotion",
-    price: 132000,
-    rating: 4.8,
-    reviewCount: 148,
-    shades: ["200 ml"],
-    description: "Whipped shea, squalane, and vanilla orchid for a polished all-over sheen.",
-    badge: "Top rated",
-    accent: "from-rose-100 via-stone-50 to-orange-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.5),_transparent_50%),linear-gradient(135deg,#b77974,#f2d5d0)]",
-  },
-  {
-    slug: "amber-bloom-mist",
-    name: "Amber Bloom Mist",
-    category: "Fragrance",
-    subcategory: "Body Mists",
-    price: 110000,
-    rating: 4.7,
-    reviewCount: 119,
-    shades: ["100 ml"],
-    description: "An airy body mist layered with amber, neroli, and sunlit musk.",
-    accent: "from-amber-100 via-rose-50 to-stone-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.4),_transparent_50%),linear-gradient(135deg,#ab6d57,#edc9af)]",
-  },
-  {
-    slug: "midnight-orchid-parfum",
-    name: "Midnight Orchid Parfum",
-    category: "Fragrance",
-    subcategory: "Perfumes",
-    price: 245000,
-    rating: 4.9,
-    reviewCount: 86,
-    shades: ["50 ml"],
-    description: "A warm floral extrait with orchid petals, spice, and polished woods.",
-    badge: "Limited edition",
-    accent: "from-stone-900 via-stone-700 to-amber-600",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.2),_transparent_50%),linear-gradient(135deg,#1d1716,#5f4a34)]",
-  },
-  {
-    slug: "glossed-lip-oil",
-    name: "Glossed Lip Oil",
-    category: "Makeup",
-    subcategory: "Lip Gloss",
-    price: 98000,
-    rating: 4.8,
-    reviewCount: 192,
-    shades: ["Rose Nude", "Terracotta Kiss", "Honey Bronze"],
-    description: "A cushiony lip oil with mirror shine, soft pigment, and a plush vanilla feel.",
-    accent: "from-rose-100 via-orange-100 to-amber-100",
-    heroTone: "bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.45),_transparent_50%),linear-gradient(135deg,#b46661,#f0c8c0)]",
-  }
-];
+export const products: Product[] = [];
 
 export const featuredCollections = [
   {
     title: "New Arrivals",
     body: "Editorial launches with fresh textures, lighter layers, and modern bronze tones.",
     tone: "from-stone-900 via-stone-700 to-amber-500",
+    image: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=800&q=80",
   },
   {
     title: "Best Sellers",
     body: "The complexion, body, and fragrance staples our community restocks first.",
     tone: "from-rose-900 via-stone-700 to-orange-500",
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -287,12 +152,14 @@ export const campaignBlocks = [
     title: "Luxury skin, tailored to deeper tones",
     body: "A high-polish complexion system that respects undertone nuance, Kampala humidity, and all-day wear.",
     tone: "from-zinc-900 via-stone-800 to-amber-700",
+    image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80",
   },
   {
     eyebrow: "Body ritual",
     title: "Layer scent, oil, and cream for a signature finish",
     body: "Build a premium routine with glow-first textures and warm florals inspired by East African sunsets.",
     tone: "from-amber-100 via-rose-50 to-stone-50",
+    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -301,16 +168,19 @@ export const testimonials = [
     quote: "The complexion shades feel considered, and the body products smell expensive without overwhelming the room.",
     author: "Achen M.",
     role: "Kampala",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&q=80",
   },
   {
     quote: "It has the clean premium feel I expect from global beauty brands, but the shades and textures finally feel local.",
     author: "Tendo N.",
     role: "Nairobi",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&q=80",
   },
   {
     quote: "The shopping flow is fast, the product storytelling is strong, and the wishlist-to-cart experience is seamless.",
     author: "Naomi K.",
     role: "London",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
   },
 ];
 
@@ -320,18 +190,21 @@ export const blogPosts = [
     title: "The Perfect Soft-Glam Base for Warm Weather",
     excerpt: "How to layer primer, matte base, and glow products for breathable wear in East African heat.",
     tag: "Tutorial",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "fragrance-layering-guide",
     title: "A Fragrance Layering Guide for Day to Night",
     excerpt: "Pair mists, oils, and parfum without muddying your notes.",
     tag: "Beauty Tips",
+    image: "https://images.unsplash.com/photo-1541698444083-023c97d3f4b6?auto=format&fit=crop&w=800&q=80",
   },
   {
     slug: "founder-vision",
     title: "Inside the Ellena Cosmetics Vision",
     excerpt: "Building a luxury African cosmetics brand with premium craft and global polish.",
     tag: "About Brand",
+    image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80",
   },
 ];
 

@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(npx tsc:*)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(claude mcp:*)",
+      "Bash(composer --version)",
+      "Bash(php --version)",
+      "Bash(composer create-project *)",
+      "Bash(composer require *)",
+      "Bash(php artisan *)",
+      "Bash(mv 2026_04_19_111603_create_product_images_table.php 2026_04_19_111604_create_product_images_table.php)",
+      "Bash(mv 2026_04_19_111604_create_product_shades_table.php 2026_04_19_111605_create_product_shades_table.php)",
+      "Bash(mv 2026_04_19_111604_create_orders_table.php         2026_04_19_111606_create_orders_table.php)",
+      "Bash(mv 2026_04_19_111605_create_order_items_table.php    2026_04_19_111607_create_order_items_table.php)",
+      "Bash(mv 2026_04_19_111605_create_cart_items_table.php     2026_04_19_111608_create_cart_items_table.php)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/)",
+      "Bash(php -r \"require 'vendor/autoload.php';\")",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }
