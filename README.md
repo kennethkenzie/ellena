@@ -8,3 +8,4 @@ Minimal Next.js app scaffolded in the existing repository.
 npm install
 npm run dev
 ```
+# ellenadeploy
