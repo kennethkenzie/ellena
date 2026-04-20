@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { LayoutGrid, Minus, Plus, SlidersHorizontal, Star, X } from "lucide-react";
 import { blogPosts, categoryHighlights } from "@/lib/store-data";
@@ -14,6 +14,14 @@ import { ProductCard } from "@/components/storefront-shell";
 import { useStore } from "@/components/providers/store-provider";
 
 export function ShopPage() {
+  return (
+    <Suspense fallback={<ShopPageFallback />}>
+      <ShopPageContent />
+    </Suspense>
+  );
+}
+
+function ShopPageContent() {
   const searchParams = useSearchParams();
   const { products } = useStorefrontProducts();
   const [category, setCategory] = useState(() => searchParams.get("category") ?? "All");
@@ -222,6 +230,23 @@ export function ShopPage() {
           </>
         )}
       </AnimatePresence>
+    </main>
+  );
+}
+
+function ShopPageFallback() {
+  return (
+    <main className="w-full px-4 py-8 md:px-6 lg:py-12 xl:px-10">
+      <div className="h-[320px] animate-pulse rounded-[40px] bg-stone-100 lg:h-[440px]" />
+      <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="space-y-4">
+            <div className="aspect-[4/5] animate-pulse rounded-[28px] bg-stone-100" />
+            <div className="h-5 w-2/3 animate-pulse rounded-full bg-stone-100" />
+            <div className="h-4 w-1/3 animate-pulse rounded-full bg-stone-100" />
+          </div>
+        ))}
+      </div>
     </main>
   );
 }
@@ -524,6 +549,5 @@ export function BlogPage() {
 export function AboutPage() {
   return <main className="container-shell px-4 py-10 md:px-6 md:py-16 xl:px-10"><div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]"><section className="rounded-xl border border-black/5 bg-[linear-gradient(135deg,#211816_0%,#7c5b45_45%,#d2a97e_100%)] p-8 text-white shadow-[0_24px_70px_rgba(17,12,10,0.12)]"><p className="text-xs font-bold uppercase tracking-[0.34em] text-white/65">About Ellena Cosmetics</p><h1 className="mt-4 font-[var(--font-heading)] text-6xl font-bold leading-none">African luxury with modern beauty discipline.</h1></section><section className="rounded-xl border border-black/5 bg-white/90 p-8 shadow-[0_24px_70px_rgba(17,12,10,0.06)]"><p className="text-sm leading-8 text-stone-600">Ellena Cosmetics is imagined as a premium cosmetics house for customers who want high-performance formulas, richer undertone sensitivity, and a shopping experience that feels global without losing regional identity. The visual system leans editorial and luxurious, while the component structure stays practical for future catalog, CMS, and checkout integrations.</p></section></div></main>;
 }
-
 
 
