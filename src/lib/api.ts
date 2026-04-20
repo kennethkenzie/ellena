@@ -84,11 +84,15 @@ export function apiGetProduct(slug: string) {
   return request<ApiProduct>(`/products/${slug}`)
 }
 
-export function apiCreateProduct(data: Partial<ApiProduct>) {
+export type ApiProductWrite = Partial<Omit<ApiProduct, "images">> & {
+  images?: ApiProductImage[] | string[]
+}
+
+export function apiCreateProduct(data: ApiProductWrite) {
   return request<ApiProduct>('/products', { method: 'POST', body: JSON.stringify(data) })
 }
 
-export function apiUpdateProduct(slug: string, data: Partial<ApiProduct>) {
+export function apiUpdateProduct(slug: string, data: ApiProductWrite) {
   return request<ApiProduct>(`/products/${slug}`, { method: 'PUT', body: JSON.stringify(data) })
 }
 

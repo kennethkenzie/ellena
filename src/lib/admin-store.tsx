@@ -45,6 +45,12 @@ export type AdminCategory = {
   description: string;
   parentId?: string;
   bannerUrl?: string;
+  fullBannerUrl?: string;
+  circleUrl?: string;
+  circleColor?: string;
+  backgroundColor?: string;
+  bannerLayout?: "full" | "split";
+  isFeatured?: boolean;
 };
 
 export type AdminAttribute = { id: string; name: string; values: string[] };
@@ -106,6 +112,7 @@ function apiCategoryToAdmin(c: ApiCategory): AdminCategory {
     description: c.description ?? "",
     parentId: c.parent_id ? String(c.parent_id) : undefined,
     bannerUrl: c.banner_image ?? undefined,
+    isFeatured: c.featured,
   };
 }
 
@@ -203,6 +210,7 @@ export function AdminStoreProvider({ children }: { children: React.ReactNode }) 
       description: c.description,
       banner_image: c.bannerUrl,
       parent_id: c.parentId ? Number(c.parentId) : undefined,
+      featured: c.isFeatured,
     });
     setCategories((prev) => [...prev, apiCategoryToAdmin(created)]);
   }, []);
@@ -214,6 +222,7 @@ export function AdminStoreProvider({ children }: { children: React.ReactNode }) 
       name: c.name,
       description: c.description,
       banner_image: c.bannerUrl,
+      featured: c.isFeatured,
     });
     setCategories((prev) =>
       prev.map((x) => (x.id === id ? apiCategoryToAdmin(updated) : x))
