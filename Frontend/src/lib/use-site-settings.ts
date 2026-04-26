@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { apiGetSettings, API_ORIGIN, type ApiSiteSettings } from "@/lib/api";
+import { apiGetSettings, API_ORIGIN, type ApiSiteSettings } from "./api";
 
 let cached: ApiSiteSettings | null = null;
 const listeners: Array<(s: ApiSiteSettings) => void> = [];

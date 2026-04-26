@@ -5,12 +5,12 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { HeroSection2 } from "@/components/ui/hero-section-2";
-import { brandImages, campaignBlocks, featuredCollections, heroStats } from "@/lib/store-data";
-import { apiGetBanners, type ApiBanner, API_ORIGIN } from "@/lib/api";
-import { useSiteSettings, logoSrc } from "@/lib/use-site-settings";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { HeroSection2 } from "./ui/hero-section-2";
+import { brandImages, campaignBlocks, featuredCollections, heroStats } from "../lib/store-data";
+import { apiGetBanners, type ApiBanner, API_ORIGIN } from "../lib/api";
+import { useSiteSettings, logoSrc } from "../lib/use-site-settings";
 
 const heroSlides = [
   {

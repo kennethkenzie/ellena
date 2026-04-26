@@ -19,7 +19,7 @@ import {
   apiDeleteCategory,
   type ApiProduct,
   type ApiCategory,
-} from "@/lib/api";
+} from "./api";
 
 // ─── Legacy local types (kept for compatibility with existing dashboard UI) ──
 

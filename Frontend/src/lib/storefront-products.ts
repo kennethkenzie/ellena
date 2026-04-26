@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { API_ORIGIN, apiGetProducts, type ApiProduct, type ApiProductVariation } from "@/lib/api";
-import { brandImages, products, type Product } from "@/lib/store-data";
+import { API_ORIGIN, apiGetProducts, type ApiProduct, type ApiProductVariation } from "./api";
+import { brandImages, products, type Product } from "./store-data";
 
 export type StorefrontProduct = Product & {
   featured?: boolean;

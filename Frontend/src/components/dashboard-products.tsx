@@ -27,9 +27,9 @@ import {
   Zap,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAdminStore, type AdminProduct } from "@/lib/admin-store";
-import { formatCurrency } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { useAdminStore, type AdminProduct } from "../lib/admin-store";
+import { formatCurrency } from "../lib/utils";
+import { cn } from "../lib/utils";
 
 // â”€â”€â”€ Shared helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 

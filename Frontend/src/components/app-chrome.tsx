@@ -1,8 +1,8 @@
 ﻿"use client";
 
 import { usePathname } from "next/navigation";
-import { SiteFooter, SiteHeader } from "@/components/storefront-shell";
-import { DashboardFooter, DashboardNavbar } from "@/components/dashboard";
+import { SiteFooter, SiteHeader } from "./storefront-shell";
+import { DashboardFooter, DashboardNavbar } from "./dashboard";
 
 export function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

@@ -20,27 +20,27 @@ import {
   Truck,
 } from "lucide-react";
 import { toast } from "sonner";
-import { blogPosts, brandImages, categoryHighlights } from "@/lib/store-data";
-import { useStorefrontProducts } from "@/lib/storefront-products";
-import { apiGetProduct, apiGetCategories, type ApiProductVariation } from "@/lib/api";
-import { cn, formatCurrency } from "@/lib/utils";
-import { ProductCard } from "@/components/storefront-shell";
-import { useStore } from "@/components/providers/store-provider";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { blogPosts, brandImages, categoryHighlights } from "../lib/store-data";
+import { useStorefrontProducts } from "../lib/storefront-products";
+import { apiGetProduct, apiGetCategories, type ApiProductVariation } from "../lib/api";
+import { cn, formatCurrency } from "../lib/utils";
+import { ProductCard } from "./storefront-shell";
+import { useStore } from "./providers/store-provider";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
+import { Skeleton } from "./ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "./ui/select";
 import {
   Sheet,
   SheetContent,
@@ -48,13 +48,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "./ui/sheet";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "./ui/accordion";
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Shop page

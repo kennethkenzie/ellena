@@ -1,8 +1,8 @@
 ﻿"use client";
 
 import * as React from "react";
-import MegaMenu from "@/components/ui/mega-menu";
-import type { MegaMenuItem } from "@/components/ui/mega-menu";
+import MegaMenu from "./mega-menu";
+import type { MegaMenuItem } from "./mega-menu";
 import {
   Cpu,
   Globe,

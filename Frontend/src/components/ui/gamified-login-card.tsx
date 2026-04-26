@@ -8,9 +8,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Label } from "./label";
 import {
   Card,
   CardContent,
@@ -18,11 +18,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { apiLogin } from "@/lib/api";
-import { useSiteSettings, logoSrc } from "@/lib/use-site-settings";
+} from "./card";
+import { Separator } from "./separator";
+import { cn } from "../../lib/utils";
+import { apiLogin } from "../../lib/api";
+import { useSiteSettings, logoSrc } from "../../lib/use-site-settings";
 
 interface ConfettiParticle {
   id: number;

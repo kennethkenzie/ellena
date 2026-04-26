@@ -1,6 +1,6 @@
 "use client";
 
-import { Footer7 } from "@/components/ui/footer-7";
+import { Footer7 } from "./ui/footer-7";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -24,31 +24,31 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { blogPosts, navGroups, testimonials } from "@/lib/store-data";
-import { useStorefrontProducts, type StorefrontProduct } from "@/lib/storefront-products";
-import { useStore } from "@/components/providers/store-provider";
-import { cn, formatCurrency } from "@/lib/utils";
-import { HeroCarousel } from "@/components/hero-carousel";
-import { useStorefrontCategories } from "@/lib/storefront-categories";
-import { useSiteSettings, logoSrc } from "@/lib/use-site-settings";
-import { apiGetBanners, type ApiBanner, API_ORIGIN } from "@/lib/api";
+import { blogPosts, navGroups, testimonials } from "../lib/store-data";
+import { useStorefrontProducts, type StorefrontProduct } from "../lib/storefront-products";
+import { useStore } from "./providers/store-provider";
+import { cn, formatCurrency } from "../lib/utils";
+import { HeroCarousel } from "./hero-carousel";
+import { useStorefrontCategories } from "../lib/storefront-categories";
+import { useSiteSettings, logoSrc } from "../lib/use-site-settings";
+import { apiGetBanners, type ApiBanner, API_ORIGIN } from "../lib/api";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import MegaMenu, { type MegaMenuItem } from "@/components/ui/mega-menu";
-import { MenuVertical } from "@/components/ui/menu-vertical";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Card, CardContent } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Separator } from "./ui/separator";
+import MegaMenu, { type MegaMenuItem } from "./ui/mega-menu";
+import { MenuVertical } from "./ui/menu-vertical";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+} from "./ui/sheet";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 const megaMenuIcons = [
   Sparkles,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { API_ORIGIN, apiGetCategories, apiGetFeaturedCategories } from "@/lib/api";
-import { campaignBlocks, categoryHighlights } from "@/lib/store-data";
+import { API_ORIGIN, apiGetCategories, apiGetFeaturedCategories } from "./api";
+import { campaignBlocks, categoryHighlights } from "./store-data";
 
 export type StorefrontCategoryHighlight = {
   id: string;

@@ -1,4 +1,4 @@
-﻿import { BlogPage } from "@/components/storefront-pages";
+﻿import { BlogPage } from "../../components/storefront-pages";
 
 export default function Page() {
   return <BlogPage />;
