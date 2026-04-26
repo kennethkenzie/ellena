@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { AppChrome } from "@/components/app-chrome";
-import { StoreProvider } from "@/components/providers/store-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { AppChrome } from "../components/app-chrome";
+import { StoreProvider } from "../components/providers/store-provider";
+import { TooltipProvider } from "../components/ui/tooltip";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Geist, Playfair_Display } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const playfair = Playfair_Display({
